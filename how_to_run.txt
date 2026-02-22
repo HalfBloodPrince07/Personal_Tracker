@@ -1,3 +1,10 @@
-conda activate personal
+# Terminal 1: Backend
+conda activate opensearch
 uvicorn backend.api:app --host 0.0.0.0 --port 8000 --reload
 
+# Terminal 2: Frontend
+cd frontend
+npm run dev
+
+# Terminal 3: Ngrok
+ngrok http --domain=unprefigured-brayden-unfarmed.ngrok-free.dev https://localhost:5173

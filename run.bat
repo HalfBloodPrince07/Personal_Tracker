@@ -5,7 +5,7 @@ echo ============================================
 echo.
 
 :: Activate conda environment
-call conda activate personal
+call conda activate opensearch
 
 :: Create data directory if it doesn't exist
 if not exist "data" mkdir data
@@ -24,7 +24,7 @@ cd ..
 echo [3/3] Starting servers...
 echo.
 echo Starting Backend on http://localhost:8000
-start "PLIS Backend" cmd /k "conda activate personal && python -m uvicorn backend.api:app --host 0.0.0.0 --port 8000 --reload"
+start "PLIS Backend" cmd /k "conda activate opensearch && python -m uvicorn backend.api:app --host 0.0.0.0 --port 8000 --reload"
 
 :: Give backend a moment to start
 timeout /t 3 /nobreak >nul
