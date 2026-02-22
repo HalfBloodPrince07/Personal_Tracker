@@ -1,0 +1,57 @@
+# Personal Life Intelligence System — Configuration
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  reload: true
+
+# JWT Authentication
+auth:
+  secret_key: "plis-super-secret-key-change-in-production-2024"
+  algorithm: "HS256"
+  access_token_expire_minutes: 1440 # 24 hours
+
+# Database
+database:
+  url: "sqlite+aiosqlite:///data/plis.db"
+  echo: false
+
+# LLM Configuration — unified provider abstraction
+# provider: "ollama" or "lmstudio"
+llm:
+  provider: "lmstudio"
+  temperature: 0.3
+  max_tokens: 70000
+
+# Ollama (local, OpenAI-compatible at /v1)
+ollama:
+  base_url: "http://localhost:11434"
+  model: "qwen3:8b"
+
+# LM Studio (local OpenAI-compatible server)
+lmstudio:
+  base_url: "http://localhost:1234/v1"
+  model: "qwen3-8b"
+
+# Life Areas (7 core domains)
+life_areas:
+  - health
+  - career
+  - finances
+  - relationships
+  - learning
+  - creativity
+  - spirituality
+
+# RAG / Vector Store
+rag:
+  threshold: 60  # Switch from brute-force to RAG above this many logs
+  chroma_dir: "data/chroma_db"
+
+# Knowledge Graph
+knowledge_graph:
+  auto_extract: true  # Auto-extract facts on NLP daily-log creation
+
+# Logging
+logging:
+  level: "INFO"
