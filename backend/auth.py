@@ -1,4 +1,5 @@
 """JWT authentication utilities."""
+import logging
 from datetime import datetime, timedelta
 from typing import Optional
 
@@ -22,6 +23,8 @@ ACCESS_TOKEN_EXPIRE_MINUTES = config["auth"]["access_token_expire_minutes"]
 
 # Bearer token scheme
 security = HTTPBearer()
+
+logger = logging.getLogger(__name__)
 
 
 def hash_password(password: str) -> str:
@@ -57,12 +60,10 @@ async def get_current_user(
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: int = payload.get("sub")
         if user_id is None:
-            print(f"DEBUG AUTH: No user_id in payload: {payload}")
+            logger.warning("Authentication failed: No user_id in token payload.")
             raise credentials_exception
     except JWTError as e:
-        print(f"DEBUG AUTH: JWT Error: {str(e)}")
-        print(f"DEBUG AUTH: Token: {token}")
-        print(f"DEBUG AUTH: Secret Key (first 5): {SECRET_KEY[:5]}...")
+        logger.warning(f"Authentication failed: JWT Error: {str(e)}")
         raise credentials_exception
 
     from backend.models import User
