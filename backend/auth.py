@@ -1,4 +1,6 @@
 """JWT authentication utilities."""
+import os
+import logging
 from datetime import datetime, timedelta
 from typing import Optional
 
@@ -15,8 +17,10 @@ from backend.database import get_db
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+logger = logging.getLogger(__name__)
+
 # JWT settings
-SECRET_KEY = config["auth"]["secret_key"]
+SECRET_KEY = os.environ.get("JWT_SECRET_KEY", config["auth"]["secret_key"])
 ALGORITHM = config["auth"]["algorithm"]
 ACCESS_TOKEN_EXPIRE_MINUTES = config["auth"]["access_token_expire_minutes"]
 
@@ -57,12 +61,10 @@ async def get_current_user(
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: int = payload.get("sub")
         if user_id is None:
-            print(f"DEBUG AUTH: No user_id in payload: {payload}")
+            logger.warning("AUTH: JWT payload missing 'sub' claim")
             raise credentials_exception
     except JWTError as e:
-        print(f"DEBUG AUTH: JWT Error: {str(e)}")
-        print(f"DEBUG AUTH: Token: {token}")
-        print(f"DEBUG AUTH: Secret Key (first 5): {SECRET_KEY[:5]}...")
+        logger.warning(f"AUTH: JWT decode error: {str(e)}")
         raise credentials_exception
 
     from backend.models import User

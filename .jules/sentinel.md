@@ -1,0 +1,4 @@
+## 2024-05-24 - [Exposed Secrets in Authentication Errors]
+**Vulnerability:** The application was printing the raw JWT token and the first 5 characters of the SECRET_KEY to standard output when a JWT decode error occurred.
+**Learning:** Debugging statements containing sensitive information (like tokens and secret keys) were left in the production code. This is a common but critical mistake that can lead to credential theft and system compromise if logs are exposed or aggregated.
+**Prevention:** Always use standard logging frameworks with appropriate severity levels (e.g., `logger.warning()`) instead of raw `print` statements. Ensure that logging statements never output secrets, tokens, or PII. Use environment variables for sensitive configuration (like SECRET_KEY) instead of relying solely on hardcoded config files.
