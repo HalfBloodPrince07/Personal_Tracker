@@ -1,0 +1,4 @@
+## 2024-11-20 - [HIGH] Fix IDOR in interaction creation
+**Vulnerability:** The `/api/interactions` endpoint allowed creating interactions for any `person_id` without verifying that the `person_id` belonged to the authenticated `current_user`. This is an Insecure Direct Object Reference (IDOR) vulnerability.
+**Learning:** When creating nested resources (like interactions which belong to people), we must always verify that the parent resource (`Person`) belongs to the authenticated user. Failing to do so can lead to unauthorized data association, and in this application, could pollute the vector index and relationship graph with unauthorized data.
+**Prevention:** Always validate ownership of foreign key references (`person_id`) against the `current_user.id` in POST/PUT endpoints before proceeding with the action.
