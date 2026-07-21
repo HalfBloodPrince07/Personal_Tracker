@@ -379,6 +379,16 @@ async def create_interaction(
     current_user: User = Depends(get_current_user)
 ):
     """Log an interaction with a person."""
+    # Verify person ownership
+    person_result = await db.execute(
+        select(Person).where(
+            and_(Person.id == data.person_id, Person.user_id == current_user.id)
+        )
+    )
+    person = person_result.scalar_one_or_none()
+    if not person:
+        raise HTTPException(status_code=404, detail="Person not found")
+
     interaction = Interaction(user_id=current_user.id, **data.model_dump())
     db.add(interaction)
     await db.flush()
