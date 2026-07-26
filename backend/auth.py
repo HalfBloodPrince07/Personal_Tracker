@@ -60,9 +60,7 @@ async def get_current_user(
             print(f"DEBUG AUTH: No user_id in payload: {payload}")
             raise credentials_exception
     except JWTError as e:
-        print(f"DEBUG AUTH: JWT Error: {str(e)}")
-        print(f"DEBUG AUTH: Token: {token}")
-        print(f"DEBUG AUTH: Secret Key (first 5): {SECRET_KEY[:5]}...")
+        # Avoid logging sensitive tokens and secret keys
         raise credentials_exception
 
     from backend.models import User
