@@ -57,12 +57,8 @@ async def get_current_user(
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: int = payload.get("sub")
         if user_id is None:
-            print(f"DEBUG AUTH: No user_id in payload: {payload}")
             raise credentials_exception
-    except JWTError as e:
-        print(f"DEBUG AUTH: JWT Error: {str(e)}")
-        print(f"DEBUG AUTH: Token: {token}")
-        print(f"DEBUG AUTH: Secret Key (first 5): {SECRET_KEY[:5]}...")
+    except JWTError:
         raise credentials_exception
 
     from backend.models import User

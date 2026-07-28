@@ -1,0 +1,4 @@
+## 2025-02-17 - Hardcoded JWT Secret Key & Log Leak
+**Vulnerability:** A hardcoded secret key (`plis-super-secret-key-change-in-production-2024`) was stored in `config.yaml` and parsed by `backend/config.py` without an environment variable override mechanism. Additionally, `backend/auth.py` was printing the JWT token and the first 5 characters of the secret key to standard output on decoding errors.
+**Learning:** Hardcoded credentials within configuration files that get committed to version control and not overridable via environment variables lead to critical risks, especially if the secret is also leaked in logs when errors occur.
+**Prevention:** Do not hardcode secrets or, at a minimum, support overriding them via environment variables (e.g. using `os.environ.get`). Furthermore, avoid logging raw tokens, credentials, or secrets during exception handling.
