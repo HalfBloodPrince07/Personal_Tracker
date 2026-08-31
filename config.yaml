@@ -7,7 +7,7 @@ server:
 
 # JWT Authentication
 auth:
-  secret_key: "plis-super-secret-key-change-in-production-2024"
+  secret_key: "plis-placeholder-secret-key-override-with-env-var"
   algorithm: "HS256"
   access_token_expire_minutes: 1440 # 24 hours
 
