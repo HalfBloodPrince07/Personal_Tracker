@@ -63,7 +63,7 @@ async def get_current_user(
             logger.warning("Authentication failed: No user_id in token payload.")
             raise credentials_exception
     except JWTError as e:
-        logger.warning(f"Authentication failed: JWT Error: {str(e)}")
+        logger.warning(f"Authentication failed: JWT signature or structure is invalid.")
         raise credentials_exception
 
     from backend.models import User
