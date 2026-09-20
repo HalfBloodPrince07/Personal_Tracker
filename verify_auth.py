@@ -1,6 +1,10 @@
+import os
 import asyncio
 import httpx
 import sys
+
+# Ensure dummy test key is set for testing locally if not present
+os.environ.setdefault("JWT_SECRET_KEY", "dummy_test_key_for_verify_auth")
 
 BASE_URL = "http://localhost:8000/api"
 USERNAME = "testuser_auth_debug"
