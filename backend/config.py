@@ -4,9 +4,21 @@ from pathlib import Path
 
 CONFIG_PATH = Path(__file__).parent.parent / "config.yaml"
 
+import os
+
 def load_config():
     """Load configuration from config.yaml."""
     with open(CONFIG_PATH, "r") as f:
-        return yaml.safe_load(f)
+        config_data = yaml.safe_load(f)
+
+    secret_key = os.environ.get("JWT_SECRET_KEY")
+    if not secret_key:
+        raise ValueError("JWT_SECRET_KEY environment variable is required but not set.")
+
+    if "auth" not in config_data:
+        config_data["auth"] = {}
+    config_data["auth"]["secret_key"] = secret_key
+
+    return config_data
 
 config = load_config()
