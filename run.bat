@@ -20,6 +20,12 @@ cd frontend
 call npm install
 cd ..
 
+:: Ensure JWT_SECRET_KEY is set for security
+if "%JWT_SECRET_KEY%"=="" (
+    echo WARNING: JWT_SECRET_KEY not set. Using dev fallback.
+    set "JWT_SECRET_KEY=dev-fallback-secret-key-change-in-production"
+)
+
 :: Start backend in background
 echo [3/3] Starting servers...
 echo.
