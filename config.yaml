@@ -7,7 +7,7 @@ server:
 
 # JWT Authentication
 auth:
-  secret_key: "plis-super-secret-key-change-in-production-2024"
+  # secret_key is required and must be provided via the JWT_SECRET_KEY environment variable.
   algorithm: "HS256"
   access_token_expire_minutes: 1440 # 24 hours
 
