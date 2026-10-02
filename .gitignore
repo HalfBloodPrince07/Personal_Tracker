@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.log
+venv/
+.env
+data/*.db
+data/chroma_db/
+node_modules/
+frontend/node_modules/
+dist/
