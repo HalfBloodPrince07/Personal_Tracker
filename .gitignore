@@ -1,0 +1,23 @@
+# Environments
+.env
+venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Logs
+*.log
+server.log
+backend.log
+
+# Databases
+data/*.db
+data/chroma_db/
+
+# Node
+node_modules/
+frontend/node_modules/
+dist/
