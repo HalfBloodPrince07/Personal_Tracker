@@ -2,3 +2,8 @@
 **Vulnerability:** Debug print statements in `backend/auth.py`'s `get_current_user` dependency leaked the raw JWT token, the decoded payload, and the first 5 characters of the secret key to standard output on authentication failures.
 **Learning:** Development debugging patterns involving print statements or excessive logging can inadvertently capture and expose highly sensitive credentials in production logs.
 **Prevention:** Remove debug `print` statements before committing auth code. Use standard `logging` with appropriate levels (e.g., `logger.warning`) and ensure that secrets, tokens, or raw payloads are never logged. Log only actionable, non-sensitive context (e.g., "Invalid token for user ID X" rather than the token itself).
+
+## 2026-10-23 - Hardcoded JWT Secret Key in Configuration
+**Vulnerability:** The JWT secret key used for signing authentication tokens was hardcoded in plain text directly within `config.yaml`, making it exposed to anyone with access to the source code repository.
+**Learning:** Hardcoding cryptographic secrets in version-controlled configuration files is a critical vulnerability as it breaks the separation of code and configuration, immediately compromising application security if the source is accessed.
+**Prevention:** Always load sensitive credentials like secret keys and API keys from environment variables or secure vault services. Ensure application startup fails fast (e.g., throwing a `ValueError`) if these essential secrets are missing in the environment.
